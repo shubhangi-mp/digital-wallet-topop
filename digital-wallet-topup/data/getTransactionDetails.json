@@ -1,0 +1,8 @@
+{
+    "pathParameters": {
+        "userId": 666
+    },
+    "queryStringParameters": {
+        "days": "7"
+    }
+}

@@ -1,0 +1,101 @@
+service: digital-wallet-topup
+
+
+plugins:
+  - serverless-webpack
+  - serverless-offline
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  profile: serverlessAccount
+  region: us-east-1
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - logs:CreateLogStream
+            - logs:CreateLogGroup
+            - logs:TagResource
+            - logs:PutLogEvents
+            - dynamodb:GetItem  
+            - dynamodb:PutItem
+            - dynamodb:Query
+          Resource:
+            - "arn:aws:logs:us-east-1:654654383264:log-group:/aws/lambda/digital-wallet-topup-dev*:*"
+            - "arn:aws:dynamodb:us-east-1:654654383264:table/users"
+            - "arn:aws:dynamodb:us-east-1:654654383264:table/usersTransactions"
+
+functions:
+  getUserInfo:
+    handler: src/getUserInfo.handler
+    events:
+      - http:
+          path: getUserInfo/{userId}
+          method: GET
+    
+  getTransactionDetails:
+    handler: src/getTransactionDetails.handler
+    events:
+      - http:
+          path: getTransactionDetails/{userId}
+          method: GET
+
+  updateWallet:
+    handler: src/updateWallet.handler
+    events:
+      - http:
+          path: /updateWallet
+          method: POST
+          cors: true
+
+resources:
+ Resources:
+    users:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: users
+        AttributeDefinitions:
+          - AttributeName: userId
+            AttributeType: N
+          - AttributeName: createTimestamp
+            AttributeType: S
+        KeySchema:
+          - AttributeName: userId
+            KeyType: HASH
+          - AttributeName: createTimestamp
+            KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        Tags:
+          - Key: 'product'
+            Value: 'digital-wallet-topup'
+    userTransactions:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: usersTransactions
+        AttributeDefinitions:
+          - AttributeName: userId
+            AttributeType: N
+          - AttributeName: createTimestamp
+            AttributeType: S
+        KeySchema:
+          - AttributeName: userId
+            KeyType: HASH
+          - AttributeName:  createTimestamp
+            KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        Tags:
+          - Key: 'product'
+            Value: 'digital-wallet-topup'
+            
+ Outputs:
+    NewOutput:
+      Description: "Description for the output"
+      Value: "Some output value"
