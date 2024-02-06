@@ -1,15 +1,17 @@
 # Digital Wallet Topup Feature:
 
-##Context:
+
 We are building an online shopping system and one feature is a digital wallet. Each registered customer has one digital wallet in our system.
 Customers can top up their digital wallets using PayId (Australia’s instant bank transfer process), and they can use the funds in their wallets
 to purchase products and enjoy special discounts.
+
 The actual PayId payment process is handled by a third-party payment platform. To integrate with the third-party payment platform, our
 digital wallet top-up sub-system needs to provide a webhook API endpoint. Every time a customer makes a payment via our PayId, the third-
 party payment platform will send a notification to the webhook endpoint, and our system needs to credit the customer’s wallet account
 accordingly.
 
 ## What's in this repository?
+
 Set of APIs contributing to the functioning of the Digital Wallet Topup Feature.
 
 1. /getUserInfo - API to retrive User and account details
