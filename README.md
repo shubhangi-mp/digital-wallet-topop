@@ -76,8 +76,10 @@ Set of APIs contributing to the functioning of the Digital Wallet Topup Feature.
      Example -  https://zvl247n3hl.execute-api.us-east-1.amazonaws.com/dev/getTransactionDetails/{userId}
   
      Sample Response:
-     
-     [
+
+{
+
+     "transactions": [
      
     {
         "transactionAmt": 5.6,
@@ -100,6 +102,8 @@ Set of APIs contributing to the functioning of the Digital Wallet Topup Feature.
         "createTimestamp": "2024-02-06T02:25:36.096Z"
     }
 ]
+
+}
   
 3. /updateWallet:
 
